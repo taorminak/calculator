@@ -1,17 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-
 </script>
 
 <template>
   <header>
-
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
   </header>
 
   <RouterView />
@@ -56,7 +52,6 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-  
   }
 
   .logo {
@@ -67,7 +62,7 @@ nav a:first-of-type {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     font-size: 1rem;
 
     padding: 1rem 0;
