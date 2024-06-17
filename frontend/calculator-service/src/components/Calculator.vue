@@ -17,38 +17,89 @@ export default {
   },
   data() {
     return {
-      displayValue: ''
+      displayValue: '',
+      firstOperand: '',
+      secondOperand: '',
+      operator: '',
+      resultDisplayed: false
     }
   },
   methods: {
     handleKeyClick({ key, isService }) {
-      console.log(key)
-      if (isService) {
+      if (isService === true) {
         this.handleServiceKey(key)
       } else {
         this.updateDisplay(key)
       }
-      console.log('Key clicked:', key)
     },
     updateDisplay(key) {
-      console.log(this.displayValue)
-      if (this.displayValue === '0' && key !== '.') {
-        this.displayValue = key
-      } else {
-        this.displayValue += key
+      if (this.resultDisplayed) {
+        this.displayValue = ''
+        this.resultDisplayed = false
       }
+      if (this.operator == '') {
+        this.firstOperand += key
+      } else {
+        if (this.secondOperand == '') {
+          this.displayValue = ''
+        }
+        this.secondOperand += key
+      }
+      this.displayValue += key
     },
     clearDisplay() {
-      this.displayValue = '0'
+      this.displayValue = ''
+      this.firstOperand = ''
+      this.secondOperand = ''
+      this.operator = ''
     },
-    calculateResult() {
-      console.log('Was calculated')
+    async calculateResult() {
+      if (this.firstOperand === '' || this.secondOperand === '' || this.operator === '') return
+      let endpoint
+      if (this.operator === '+') {
+        endpoint = 'add'
+      } else if (this.operator === '-') {
+        endpoint = 'subtract'
+      } else {
+        console.error('Unsupported operator')
+        return
+      }
+
+      const requestBody = {
+        operand1: parseFloat(this.firstOperand),
+        operand2: parseFloat(this.secondOperand)
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8000/calculator/${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        })
+
+        const data = await response.json()
+        this.displayValue = data.result
+        this.firstOperand = data.result
+        this.secondOperand = ''
+        this.operator = ''
+        this.resultDisplayed = true
+      } catch (error) {
+        console.error('Error:', error)
+      }
     },
     handleServiceKey(key) {
       if (key === 'C') {
         this.clearDisplay()
+      } else if (['+', '-', '*', '/'].includes(key)) {
+        this.operator = key
+        if (this.firstOperand !== '' && this.secondOperand !== '') {
+          this.calculateResult()
+        }
+      } else if (key === '=') {
+        this.calculateResult()
       }
-      console.log(key)
     }
   }
 }

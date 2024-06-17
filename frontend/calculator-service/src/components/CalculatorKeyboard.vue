@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-const ROWS = ['C789÷', '456*', '123-', '0.+=']
+const ROWS = ['C789/', '456*', '123-', '0.+=']
 export default {
   name: 'CalculatorKeyboard',
   data() {
@@ -27,7 +27,7 @@ export default {
       this.$emit('key-clicked', { key, isService })
     },
     isServiceKey(key) {
-      return ['+', '-', '*', '=', 'C', '÷'].includes(key)
+      return ['+', '-', '*', '=', 'C', '/'].includes(key)
     }
   }
 }
