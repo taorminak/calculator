@@ -23,7 +23,11 @@ export default {
   },
   methods: {
     handleKeyClick(key) {
+const keys = this.$el.querySelectorAll('.calculator_key')
+     console.log(keys)
+
       const isService = this.isServiceKey(key)
+    
       this.$emit('key-clicked', { key, isService })
     },
     isServiceKey(key) {
