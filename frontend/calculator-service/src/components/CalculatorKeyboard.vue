@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { ROWS, SERVICE_BUTTONS } from "../constants";
+import { ROWS, SERVICE_BUTTONS } from '../constants'
 export default {
   name: 'CalculatorKeyboard',
   data() {
@@ -24,7 +24,7 @@ export default {
   methods: {
     handleKeyClick(key) {
       const isService = this.isServiceKey(key)
-    
+
       this.$emit('key-clicked', { key, isService })
     },
     isServiceKey(key) {

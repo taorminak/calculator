@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { OPERATORS, ENDPOINTS } from '@/constants';
+import { OPERATORS, ENDPOINTS } from '@/constants'
 import CalculatorDisplay from './CalculatorDisplay.vue'
 import CalculatorKeyboard from './CalculatorKeyboard.vue'
 
@@ -35,28 +35,49 @@ export default {
     },
     updateDisplay(key) {
       if (this.resultDisplayed) {
-        this.displayValue = ''
+        this.resetDisplayValue()
         this.resultDisplayed = false
       }
       if (this.operator == '') {
         this.firstOperand += key
       } else {
         if (this.secondOperand == '') {
-          this.displayValue = ''
+          this.resetDisplayValue()
         }
         this.secondOperand += key
       }
       this.displayValue += key
     },
-    clearDisplay() {
-      this.displayValue = ''
+    handleServiceKey(key) {
+      switch (key) {
+        case 'C':
+          this.resetCalculationValues()
+          this.resetDisplayValue()
+          break
+        case '=':
+          this.calculateResult()
+          break
+        default:
+          if (OPERATORS.includes(key)) {
+            this.operator = key
+            if (this.firstOperand && this.secondOperand) {
+              this.calculateResult()
+            }
+          }
+          break
+      }
+    },
+    resetCalculationValues() {
       this.firstOperand = ''
       this.secondOperand = ''
       this.operator = ''
     },
+    resetDisplayValue() {
+      this.displayValue = ''
+    },
     async calculateResult() {
       if (this.firstOperand === '' || this.secondOperand === '' || this.operator === '') return
-      
+
       const endpoint = ENDPOINTS[this.operator]
       if (!endpoint) {
         console.error('Unsupported operator')
@@ -69,6 +90,18 @@ export default {
       }
 
       try {
+        const data = await this.fetchCalculationResult(endpoint, requestBody)
+        this.displayValue = String(data.result)
+        this.firstOperand = String(data.result)
+        this.secondOperand = ''
+        this.operator = ''
+        this.resultDisplayed = true
+      } catch (error) {
+        console.error('Error calculating result:', error)
+      }
+    },
+    async fetchCalculationResult(endpoint, requestBody) {
+      try {
         const response = await fetch(`http://localhost:8000/calculator/${endpoint}`, {
           method: 'POST',
           headers: {
@@ -77,26 +110,14 @@ export default {
           body: JSON.stringify(requestBody)
         })
 
-        const data = await response.json()
-        this.displayValue = String(data.result)
-        this.firstOperand = String(data.result)
-        this.secondOperand = ''
-        this.operator = ''
-        this.resultDisplayed = true
-      } catch (error) {
-        console.error('Error:', error)
-      }
-    },
-    handleServiceKey(key) {
-      if (key === 'C') {
-        this.clearDisplay()
-      } else if (OPERATORS.includes(key)) {
-        this.operator = key
-        if (this.firstOperand !== '' && this.secondOperand !== '') {
-          this.calculateResult()
+        if (!response.ok) {
+          throw new Error('Failed to fetch response')
         }
-      } else if (key === '=') {
-        this.calculateResult()
+
+        const data = await response.json()
+        return data
+      } catch (error) {
+        throw error
       }
     }
   }
