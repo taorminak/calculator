@@ -7,7 +7,12 @@
 <script>
 export default {
   name: 'CalculatorDisplay',
-  props: ['displayValue']
+  props: {
+    displayValue: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 
