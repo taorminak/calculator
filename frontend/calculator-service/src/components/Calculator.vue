@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { OPERATORS, ENDPOINTS } from '@/constants';
 import CalculatorDisplay from './CalculatorDisplay.vue'
 import CalculatorKeyboard from './CalculatorKeyboard.vue'
 
@@ -55,12 +56,9 @@ export default {
     },
     async calculateResult() {
       if (this.firstOperand === '' || this.secondOperand === '' || this.operator === '') return
-      let endpoint
-      if (this.operator === '+') {
-        endpoint = 'add'
-      } else if (this.operator === '-') {
-        endpoint = 'subtract'
-      } else {
+      
+      const endpoint = ENDPOINTS[this.operator]
+      if (!endpoint) {
         console.error('Unsupported operator')
         return
       }
@@ -80,8 +78,8 @@ export default {
         })
 
         const data = await response.json()
-        this.displayValue = data.result
-        this.firstOperand = data.result
+        this.displayValue = String(data.result)
+        this.firstOperand = String(data.result)
         this.secondOperand = ''
         this.operator = ''
         this.resultDisplayed = true
@@ -92,7 +90,7 @@ export default {
     handleServiceKey(key) {
       if (key === 'C') {
         this.clearDisplay()
-      } else if (['+', '-', '*', '/'].includes(key)) {
+      } else if (OPERATORS.includes(key)) {
         this.operator = key
         if (this.firstOperand !== '' && this.secondOperand !== '') {
           this.calculateResult()
