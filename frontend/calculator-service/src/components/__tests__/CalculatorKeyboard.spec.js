@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach } from 'vitest'
 import CalculatorKeyboard from '@/components/CalculatorKeyboard.vue'
+import { SERVICE_BUTTONS } from '../../constants.js'
 
 describe('CalculatorKeyboard.vue', () => {
   let wrapper
@@ -14,13 +15,11 @@ describe('CalculatorKeyboard.vue', () => {
     const keys = wrapper.findAll('.calculator_key')
 
     expect(rows.length).toBe(4)
-    expect(keys.length).toBe(17)
+    expect(keys.length).toBe(20)
   })
 
   it('assigns the correct classes to service keys', () => {
-    const serviceKeys = ['+', '-', '*', '=', 'C', '/']
-
-    serviceKeys.forEach((key) => {
+    SERVICE_BUTTONS.forEach((key) => {
       const keyWrappers = wrapper
         .findAll('.calculator_key')
         .filter((wrapKey) => wrapKey.text() === key)

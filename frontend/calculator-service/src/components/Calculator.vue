@@ -104,17 +104,14 @@ export default {
 
       try {
         const data = await this.fetchCalculationResult(endpoint, requestBody)
-      this.displayValue = String(data.result)
-      this.firstOperand = String(data.result)
-      this.secondOperand = ''
+        this.displayValue = String(data.result)
+        this.firstOperand = String(data.result)
+        this.secondOperand = ''
 
-      this.resultDisplayed = true
-      }
-      catch (e) {
+        this.resultDisplayed = true
+      } catch (e) {
         console.error(e)
-        
       }
-      
     },
     async fetchCalculationResult(endpoint, requestBody) {
       try {
@@ -132,9 +129,8 @@ export default {
 
         const data = await response.json()
         return data
-      } catch (e)  {
-        throw e;
-        
+      } catch (e) {
+        throw e
       }
     }
   }
@@ -145,9 +141,10 @@ export default {
 .calculator {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 10px;
+  padding: 25px;
+  border-radius: 5%;
+  background-color: rgb(16, 16, 16);
 }
 </style>

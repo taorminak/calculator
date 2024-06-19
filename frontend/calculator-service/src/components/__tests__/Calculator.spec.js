@@ -189,6 +189,5 @@ describe('Calculator', () => {
     })
 
     await expect(() => wrapper.vm.calculateResult()).rejects.toThrowError('Unsupported operator')
-  });
-
+  })
 })

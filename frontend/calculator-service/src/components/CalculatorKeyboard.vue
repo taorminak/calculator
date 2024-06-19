@@ -4,7 +4,11 @@
       <div
         v-for="key in row"
         :key="key"
-        :class="['calculator_key', isServiceKey(key) ? 'service_key' : 'number_key']"
+        :class="[
+          'calculator_key',
+          `calculator-${key}`,
+          isServiceKey(key) ? 'service_key' : 'number_key'
+        ]"
         @click="handleKeyClick(key)"
       >
         {{ key }}
@@ -39,7 +43,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
 }
 
 .calculator_row {
@@ -52,10 +55,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  background-color: white;
-  color: black;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(48, 49, 54, 1);
+  color: rgba(41, 168, 255, 1);
   font-family: system-ui, sans-serif;
   font-size: 16px;
   margin: 0 5px;
@@ -65,13 +68,23 @@ export default {
 }
 
 .calculator_key:hover {
-  background-color: #aba9a9;
-  color: white;
+  background-color: rgb(81, 82, 91);
+  color: rgb(80, 181, 249);
 }
 
 .calculator_key:active {
-  border-radius: 30%;
-  background-color: #8e8d8d;
-  color: white;
+  border-radius: 20%;
+  background-color: rgb(98, 99, 110);
+  color: rgb(130, 202, 250);
+}
+
+.service_key {
+  background-color: rgba(0, 93, 178, 1);
+  color: rgba(178, 218, 255, 1);
+}
+
+.calculator-C {
+  background-color: rgb(178, 0, 33);
+  color: rgb(243, 200, 208);
 }
 </style>

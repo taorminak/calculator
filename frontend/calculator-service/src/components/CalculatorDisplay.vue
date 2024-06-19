@@ -20,10 +20,15 @@ export default {
 .calculator_display {
   font-size: 2em;
   text-align: right;
-  background-color: white;
-  border: 1px solid #ccc;
-  margin: 10px;
+  background-color: rgb(16, 16, 16);
+  color: rgb(216, 221, 245);
+  border: none;
+  margin: 20px;
   width: 100%;
-  min-height: 50px;
+  min-height: 100px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
 }
 </style>
