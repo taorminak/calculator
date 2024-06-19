@@ -36,7 +36,6 @@ export default {
     updateDisplay(key) {
       if (this.resultDisplayed) {
         this.resetDisplayValue()
-        this.resultDisplayed = false
       }
       if (this.operator == '') {
         this.firstOperand += key
@@ -56,21 +55,36 @@ export default {
           break
         case '=':
           this.calculateResult()
+          this.operator = ''
           break
-        default:
-          if (OPERATORS.includes(key)) {
-            this.operator = key
-            if (this.firstOperand && this.secondOperand) {
-              this.calculateResult()
-            }
+        case '-':
+          if (this.firstOperand === '') {
+            this.firstOperand = '-'
+            this.displayValue = '-'
+          } else {
+            this.assignOperator(key)
           }
           break
+        default:
+          this.assignOperator(key)
+          break
+      }
+    },
+    assignOperator(key) {
+      if (this.firstOperand) {
+        if (OPERATORS.includes(key)) {
+          if (this.firstOperand && this.secondOperand) {
+            this.calculateResult()
+          }
+          this.operator = key
+        }
       }
     },
     resetCalculationValues() {
       this.firstOperand = ''
       this.secondOperand = ''
       this.operator = ''
+      this.resultDisplayed = false
     },
     resetDisplayValue() {
       this.displayValue = ''
@@ -80,8 +94,7 @@ export default {
 
       const endpoint = ENDPOINTS[this.operator]
       if (!endpoint) {
-        console.error('Unsupported operator')
-        return
+        throw new Error('Unsupported operator')
       }
 
       const requestBody = {
@@ -91,14 +104,17 @@ export default {
 
       try {
         const data = await this.fetchCalculationResult(endpoint, requestBody)
-        this.displayValue = String(data.result)
-        this.firstOperand = String(data.result)
-        this.secondOperand = ''
-        this.operator = ''
-        this.resultDisplayed = true
-      } catch (error) {
-        console.error('Error calculating result:', error)
+      this.displayValue = String(data.result)
+      this.firstOperand = String(data.result)
+      this.secondOperand = ''
+
+      this.resultDisplayed = true
       }
+      catch (e) {
+        console.error(e)
+        
+      }
+      
     },
     async fetchCalculationResult(endpoint, requestBody) {
       try {
@@ -110,14 +126,15 @@ export default {
           body: JSON.stringify(requestBody)
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch response')
+        if (!response || !response.ok) {
+          throw new Error('Failed to fetch calculation result')
         }
 
         const data = await response.json()
         return data
-      } catch (error) {
-        throw error
+      } catch (e)  {
+        throw e;
+        
       }
     }
   }
