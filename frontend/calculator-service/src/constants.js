@@ -1,12 +1,14 @@
-export const ROWS = ['C789/', '→456*', '√123-', '%0.+=']
+export const ROWS = ['C789/', '→456*', '^123-', '%0.+=']
 
-export const OPERATORS = ['+', '-', '*', '/']
+export const OPERATORS = ['+', '-', '*', '/', '%', '^']
 
 export const ENDPOINTS = {
   '+': 'add',
   '-': 'subtract',
   '*': 'multiplicate',
-  '/': 'divide'
+  '/': 'divide',
+  '%': 'modulo',
+  '^': 'exponentiate'
 }
 
-export const SERVICE_BUTTONS = ['+', '-', '*', '→', '%', '√', '=', 'C', '/']
+export const SERVICE_BUTTONS = ['+', '-', '*', '→', '%', '^', '=', 'C', '/']
