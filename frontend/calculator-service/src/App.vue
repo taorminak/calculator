@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/signup">Sign Up</RouterLink>
     </nav>
   </header>
 
@@ -43,6 +43,7 @@ nav a {
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
+  color: rgba(41, 168, 255, 1);
 }
 
 nav a:first-of-type {
