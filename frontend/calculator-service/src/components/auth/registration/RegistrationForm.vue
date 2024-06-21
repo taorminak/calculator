@@ -5,13 +5,13 @@
         <h2>Sign Up</h2>
         <form @submit.prevent="register">
           <label for="username">Username:</label>
-          <input type="text" id="username" v-model="username" required />
+          <input type="text" id="username" v-model="formData.username" required />
           <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required />
+          <input type="password" id="password" v-model="formData.password" required />
           <label for="confirmPassword">Confirm password:</label>
-          <input type="password" id="confirmPassword" v-model="confirmPassword" required />
+          <input type="password" id="confirmPassword" v-model="formData.confirmPassword" required />
           <label for="role">Role:</label>
-          <select id="role" v-model="role" required>
+          <select id="role" v-model="formData.role" required>
             <option value="scientist">Scientist</option>
             <option value="student">Student</option>
           </select>
@@ -25,11 +25,11 @@
 
       <template v-else-if="currentForm === 'login'">
         <h2>Login</h2>
-        <form @submit.prevent="login">
+        <form @submit.prevent="loginUser">
           <label for="username">Username:</label>
-          <input type="text" id="username" v-model="username" required />
+          <input type="text" id="username" v-model="formData.username" required />
           <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required />
+          <input type="password" id="password" v-model="formData.password" required />
           <button class="registration_button" type="submit">Login</button>
         </form>
         <p>
@@ -37,36 +37,114 @@
           <button class="toggle_button" @click="toggleForm('registration')">Sign Up</button>
         </p>
       </template>
+
+      <template v-else>
+        <h2>Logout</h2>
+        <button class="toggle_button" @click="logout">Logout</button>
+      </template>
     </component>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
-      currentForm: 'registration',
-      username: '',
-      password: '',
-      role: 'student'
+      currentForm: 'login',
+      formData: {
+        username: '',
+        password: '',
+        confirmPassword: '',
+        role: 'student'
+      }
     }
   },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
   methods: {
-    register() {
+    ...mapActions(['login', 'logout']),
+    async register() {
+      if (this.password !== this.confirmPassword) {
+        alert('Passwords do not match!')
+        return
+      }
+
       const userData = {
-        username: this.username,
-        password: this.password,
-        role: this.role
+        username: this.formData.username,
+        password: this.formData.password,
+        role: this.formData.role
+      }
+
+      try {
+        const response = await fetch('http://localhost:8000/users/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        })
+
+        console.log(response)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        console.log('User created:', data)
+
+        this.$router.push('/')
+      } catch (error) {
+        console.error('Error creating user:', error)
       }
     },
-    login() {
+    async loginUser() {
       const userData = {
-        username: this.username,
-        password: this.password
+        username: this.formData.username,
+        password: this.formData.password
       }
+
+      console.log(userData)
+
+      try {
+        const response = await fetch('http://localhost:8000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        })
+
+        console.log(response)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        console.log('User authenthificated:', data)
+
+        this.$router.push('/')
+        if (data.access_token) {
+          this.currentForm = 'logout'
+        } else {
+          throw new Error('Authentication failed')
+        }
+      } catch (error) {
+        console.error('Error authentificating user:', error)
+      }
+    },
+    logout() {
+      this.logout()
+      this.currentForm = 'login'
     },
     toggleForm(form) {
       this.currentForm = form
+      this.username = ''
+      this.password = ''
+      this.confirmPassword = ''
+      this.role = 'student'
     }
   }
 }

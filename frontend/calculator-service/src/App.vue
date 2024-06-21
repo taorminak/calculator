@@ -1,17 +1,32 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/signup">Sign Up</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/login">Log In</RouterLink>
+      <button v-else @click="logout">Log Out</button>
     </nav>
   </header>
 
   <RouterView />
 </template>
+
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import { mapState } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['isLoggedIn'])
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout'); 
+      this.$router.push('/login');
+    }
+  }
+};
+
+</script>
 
 <style scoped>
 header {
