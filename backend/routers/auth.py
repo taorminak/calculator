@@ -12,8 +12,10 @@ router = APIRouter(
 # Define login endpoint
 @router.post("/login")
 def login(user: User, auth_service: AuthService = Depends(get_auth_service)):
+    print(f"Received login request for username: {user.username}")
     token = auth_service.authenticate_user(user.username, user.password)
     if not token:
         # Raise an exception if authentication fails
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+    print(f"Authentication successful for username: {user.username}")
     return {"access_token": token}

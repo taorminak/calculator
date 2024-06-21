@@ -61,14 +61,14 @@ class UserService:
             try:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    INSERT INTO users (username, password, role)
+                    INSERT INTO users (username, hashed_password, role)
                     VALUES (?, ?, ?)
                 """, (create_request.username, hashed_password, create_request.role))
                 conn.commit()
                 return {"message": "User created", "user": create_request.username}
             except Error as e:
                 print(e)
-                return {"error": "Failed creating a user"}
+                return {"error": e}
             finally:
                 conn.close()
         return {"error": "Database connection failed."}
