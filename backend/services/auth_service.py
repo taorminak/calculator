@@ -9,8 +9,9 @@ import hashlib
 SECRET_KEY = "5E18C542027176768CA471B78518FE56011A09553D7522668EF30F7784324FC3"
 
 class AuthService:
-    def __init__(self, db_file='calculation.db'):
+    def __init__(self, db_file='calculation.db', secret_key=SECRET_KEY):
         self.db_file = db_file
+        self.secret_key = secret_key
 
     def create_connection(self):
         conn = None
