@@ -39,6 +39,13 @@ export default {
       if (this.resultDisplayed) {
         this.resetDisplayValue()
       }
+      if (key === '.') {
+        if (this.operator === '' && this.firstOperand.includes('.')) {
+          return
+        } else if (this.operator !== '' && this.secondOperand.includes('.')) {
+          return
+        }
+      }
       if (this.operator == '') {
         this.firstOperand += key
       } else {
