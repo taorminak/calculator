@@ -32,8 +32,33 @@ for _ in range(num_users):
     ''', (username, hashed_password, created_at, role))
 
 
-conn.commit()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS calculations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    operand1 REAL NOT NULL,
+    operand2 REAL NOT NULL,
+    result REAL NOT NULL,
+    calculation_type TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+)
+''') 
 
+calculations_data = [
+    (1, 10.5, 5.2, 15.7, 'addition'),       
+    (1, 8.3, 2.1, 6.2, 'subtraction'),      
+    (2, 3.5, 2.5, 8.75, 'multiplication'),   
+    (2, 9.5, 4.0, 2.375, 'division')         
+]
+
+for data in calculations_data:
+    user_id, operand1, operand2, result, calculation_type = data
+    cursor.execute('''
+    INSERT INTO calculations (user_id, operand1, operand2, result, calculation_type)
+    VALUES (?, ?, ?, ?, ?)
+    ''', (user_id, operand1, operand2, result, calculation_type))
+
+conn.commit()
 conn.close()
 
-print(f"Successfully populated {num_users} users.")
+print(f"Successfully inserted calculations into the calculations table.")
