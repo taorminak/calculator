@@ -23,7 +23,8 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('@/views/auth/UserProfile.vue')
+      component: () => import('@/views/auth/UserProfile.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/:catchAll(.*)',
@@ -37,8 +38,18 @@ router.beforeEach((to, from, next) => {
   const allowedRoutes = ['login', 'register', 'profile']
   const formName = allowedRoutes.includes(to.name) ? capitalizeFirstLetter(to.name) : 'Login'
   store.dispatch('user/setForm', formName)
-  next()
-})
+
+  if (to.meta.requiresAuth) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      next('/login'); 
+    } else {
+      next(); 
+    }
+  } else {
+    next(); 
+  }
+});
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)

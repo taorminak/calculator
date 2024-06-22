@@ -29,6 +29,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { saveTokenToLS } from "@/services/authService.js"
 
 export default {
   data() {
@@ -66,8 +67,9 @@ export default {
         const data = await response.json()
         console.log('User authenthificated:', data)
 
-        //this.$router.push('/')
+        
         if (data.access_token) {
+        saveTokenToLS(data.access_token); 
           this.login()
           this.setForm('Profile')
           this.$router.push('/profile')
