@@ -3,9 +3,9 @@
     <h2>Login</h2>
     <form @submit.prevent="loginUser">
       <label for="username">Username:</label>
-      <input type="text" id="username" v-model="formData.username" required />
+      <input type="text" id="username" v-model="formData.username" autocomplete="username" required />
       <label for="password">Password:</label>
-      <input type="password" id="password" v-model="formData.password" required />
+      <input type="password" id="password" v-model="formData.password" autocomplete="new-password" required />
       <button class="registration_button" type="submit">Login</button>
     </form>
     <p>

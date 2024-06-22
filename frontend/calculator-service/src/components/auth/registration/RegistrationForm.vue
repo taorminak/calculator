@@ -3,11 +3,11 @@
     <h2>Sign Up</h2>
     <form @submit.prevent="register">
       <label for="username">Username:</label>
-      <input type="text" id="username" v-model="formData.username" required />
+      <input type="text" id="username" v-model="formData.username" autocomplete="username" required />
       <label for="password">Password:</label>
-      <input type="password" id="password" v-model="formData.password" required />
+      <input type="password" id="password" v-model="formData.password" autocomplete="new-password" required />
       <label for="confirmPassword">Confirm password:</label>
-      <input type="password" id="confirmPassword" v-model="formData.confirmPassword" required />
+      <input type="password" id="confirmPassword" v-model="formData.confirmPassword" autocomplete="new-password" required />
       <label for="role">Role:</label>
       <select id="role" v-model="formData.role" required>
         <option value="scientist">Scientist</option>
