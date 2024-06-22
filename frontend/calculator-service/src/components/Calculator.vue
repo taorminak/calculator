@@ -3,7 +3,7 @@
     <CalculatorDisplay :displayValue="displayValue" />
     <CalculatorKeyboard @key-clicked="handleKeyClick" />
   </div>
-  <div id="error-message"></div>
+  <div id="error-message">{{ errorMessage }}</div>
 </template>
 
 <script>
@@ -23,7 +23,8 @@ export default {
       firstOperand: '',
       secondOperand: '',
       operator: '',
-      resultDisplayed: false
+      resultDisplayed: false,
+      errorMessage: '' 
     }
   },
   methods: {
@@ -110,6 +111,7 @@ export default {
         this.secondOperand = ''
 
         this.resultDisplayed = true
+        this.clearErrorMessage() 
       } catch (e) {
         console.error(e)
       }
@@ -132,10 +134,12 @@ export default {
         const data = await response.json()
         return data
       } catch (e) {
-        const errorMessageElement = document.getElementById('error-message')
-        errorMessageElement.textContent = `Failed to calculate result. Please, make sure you are logged in.`
+        this.errorMessage = `Failed to fetch calculation result. Please, make sure you are logged in.`
         throw e
       }
+    },
+    clearErrorMessage() {
+      this.errorMessage = '' 
     }
   }
 }
