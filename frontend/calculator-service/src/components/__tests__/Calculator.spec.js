@@ -185,7 +185,7 @@ describe('Calculator', () => {
     wrapper.setData({
       firstOperand: '1',
       secondOperand: '5',
-      operator: '%'
+      operator: '#'
     })
 
     await expect(() => wrapper.vm.calculateResult()).rejects.toThrowError('Unsupported operator')

@@ -24,7 +24,7 @@ export default {
       secondOperand: '',
       operator: '',
       resultDisplayed: false,
-      errorMessage: '' 
+      errorMessage: ''
     }
   },
   methods: {
@@ -47,14 +47,19 @@ export default {
         }
       }
       if (this.operator == '') {
-        this.firstOperand += key
+        if (this.firstOperand.length < 15) {
+          this.firstOperand += key
+          this.displayValue += key
+        }
       } else {
-        if (this.secondOperand == '') {
+        if (this.secondOperand === '') {
           this.resetDisplayValue()
         }
-        this.secondOperand += key
+        if (this.secondOperand.length < 15) {
+          this.secondOperand += key
+          this.displayValue += key
+        }
       }
-      this.displayValue += key
     },
     handleServiceKey(key) {
       switch (key) {
@@ -118,7 +123,7 @@ export default {
         this.secondOperand = ''
 
         this.resultDisplayed = true
-        this.clearErrorMessage() 
+        this.clearErrorMessage()
       } catch (e) {
         console.error(e)
       }
@@ -146,7 +151,7 @@ export default {
       }
     },
     clearErrorMessage() {
-      this.errorMessage = '' 
+      this.errorMessage = ''
     }
   }
 }
