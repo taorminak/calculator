@@ -3,6 +3,7 @@
     <CalculatorDisplay :displayValue="displayValue" />
     <CalculatorKeyboard @key-clicked="handleKeyClick" />
   </div>
+  <div id="error-message"></div>
 </template>
 
 <script>
@@ -119,7 +120,7 @@ export default {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           },
           body: JSON.stringify(requestBody)
         })
@@ -131,6 +132,8 @@ export default {
         const data = await response.json()
         return data
       } catch (e) {
+        const errorMessageElement = document.getElementById('error-message')
+        errorMessageElement.textContent = `Failed to calculate result. Please, make sure you are logged in.`
         throw e
       }
     }

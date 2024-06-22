@@ -1,3 +1,3 @@
 export function saveTokenToLS(token) {
-    localStorage.setItem('token', token);
-  }
+  localStorage.setItem('token', token)
+}

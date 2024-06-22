@@ -40,16 +40,16 @@ router.beforeEach((to, from, next) => {
   store.dispatch('user/setForm', formName)
 
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (!token) {
-      next('/login'); 
+      next('/login')
     } else {
-      next(); 
+      next()
     }
   } else {
-    next(); 
+    next()
   }
-});
+})
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
