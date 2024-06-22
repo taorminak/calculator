@@ -4,6 +4,9 @@ const actions = {
   },
   logout({ commit }) {
     commit('SET_LOGOUT')
+  },
+  setForm({ commit }, form) {
+    commit('SET_FORM', form)
   }
 }
 

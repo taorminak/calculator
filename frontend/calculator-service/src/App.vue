@@ -2,8 +2,7 @@
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink v-if="!isLoggedIn" to="/login">Log In</RouterLink>
-      <button v-else @click="logout">Log Out</button>
+      <RouterLink :to="`/${currentForm.toLowerCase()}`">{{ currentForm }}</RouterLink>
     </nav>
   </header>
 
@@ -12,20 +11,13 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['isLoggedIn'])
-  },
-  methods: {
-    logout() {
-      this.$store.commit('logout'); 
-      this.$router.push('/login');
-    }
+    ...mapGetters('user', ['isLoggedIn', 'currentForm'])
   }
-};
-
+}
 </script>
 
 <style scoped>
@@ -59,6 +51,15 @@ nav a {
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
   color: rgba(41, 168, 255, 1);
+  font-size: 1em;
+}
+
+.logout-button {
+  padding: 0 1rem;
+  border: none;
+  color: rgb(16, 16, 16);
+  background-color: transparent;
+  font-size: 1em;
 }
 
 nav a:first-of-type {

@@ -6,7 +6,8 @@ const userModule = {
   namespaced: true,
   state() {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      currentForm: 'Login'
     }
   },
   getters,

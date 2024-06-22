@@ -12,7 +12,17 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/auth/UserRegistration.vue')
+      component: () => import('@/components/auth/login/LoginForm.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/components/auth/registration/RegistrationForm.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/auth/UserProfile.vue')
     },
     {
       path: '/:catchAll(.*)',
