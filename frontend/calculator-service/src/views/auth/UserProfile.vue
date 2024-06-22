@@ -1,6 +1,6 @@
 <template>
   <div>You successfully logged in.</div>
-  <button @click="handleLogout" class="logout-button">Log Out</button>
+  <button @click="handleLogout" class="main_button">Log Out</button>
 </template>
 
 <script>
@@ -30,5 +30,3 @@ export default {
   }
 }
 </script>
-
-<style lang=""></style>

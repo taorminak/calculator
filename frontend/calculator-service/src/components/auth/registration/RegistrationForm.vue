@@ -31,7 +31,7 @@
         <option value="scientist">Scientist</option>
         <option value="student">Student</option>
       </select>
-      <button class="registration_button" type="submit">Register</button>
+      <button class="main_button" type="submit">Register</button>
     </form>
     <p>
       Already registered?

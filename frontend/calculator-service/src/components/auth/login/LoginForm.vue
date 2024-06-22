@@ -18,11 +18,11 @@
         autocomplete="new-password"
         required
       />
-      <button class="registration_button" type="submit">Login</button>
+      <button class="main_button" type="submit">Login</button>
     </form>
     <p>
       Not registered yet?
-      <button class="toggle_button" @click="toggleForm('Register')">Sign Up</button>
+      <button class="toggle_button" @click="toggleForm('Register')">Register</button>
     </p>
   </div>
 </template>
