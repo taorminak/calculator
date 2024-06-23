@@ -79,6 +79,8 @@ export default {
             this.assignOperator(key)
           }
           break
+        case '→':
+          this.handleBackspace()
         default:
           this.assignOperator(key)
           break
@@ -146,12 +148,21 @@ export default {
         const data = await response.json()
         return data
       } catch (e) {
-        this.errorMessage = `Failed to fetch calculation result. Please, make sure you are logged in.`
+        this.errorMessage = `Failed to calculate result. Please, make sure you are logged in.`
         throw e
       }
     },
     clearErrorMessage() {
       this.errorMessage = ''
+    },
+    handleBackspace() {
+      if (this.operator === '') {
+        this.firstOperand = this.firstOperand.slice(0, -1)
+        this.displayValue = this.displayValue.slice(0, -1)
+      } else {
+        this.secondOperand = this.secondOperand.slice(0, -1)
+        this.displayValue = this.displayValue.slice(0, -1)
+      }
     }
   }
 }
