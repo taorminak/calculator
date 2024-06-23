@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Header
 from services.auth_service import AuthService
 from services.user_service import UserService
 from services.calculator_service import CalculatorService
-from jwt import PyJWTError
+from jwt import PyJWTError, ExpiredSignatureError
 import jwt
 
 # Dependency for getting AuthService instance

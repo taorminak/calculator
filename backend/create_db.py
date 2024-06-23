@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
 
-
 num_users = 10
 
 fake = Faker()

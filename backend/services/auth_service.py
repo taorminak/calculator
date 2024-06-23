@@ -58,3 +58,5 @@ class AuthService:
         expiration = datetime.now(timezone.utc) + timedelta(hours=1)
         token = jwt.encode({"sub": username, "exp": expiration}, SECRET_KEY, algorithm="HS256")
         return token 
+
+    

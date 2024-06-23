@@ -72,3 +72,21 @@ class UserService:
             finally:
                 conn.close()
         return {"error": "Database connection failed."}
+
+    def get_user_role(self, username: str) -> str:
+        conn = self.create_connection()
+        if conn is not None:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT role FROM users WHERE username = ?", (username,))
+                row = cursor.fetchone()
+                if row:
+                    return row[0] 
+                else:
+                    return "unknown" 
+            except Error as e:
+                print(e)
+                return "error"
+            finally:
+                conn.close()
+        return "error"
