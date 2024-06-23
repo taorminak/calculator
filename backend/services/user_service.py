@@ -1,5 +1,4 @@
-from models import User
-from models import CreateUserRequest
+from models import User, CreateUserRequest
 import sqlite3
 from sqlite3 import Error
 import hashlib
@@ -90,3 +89,21 @@ class UserService:
             finally:
                 conn.close()
         return "error"
+
+    def get_user_id(self, username: str) -> int:
+        conn = self.create_connection()
+        if conn is not None:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("SELECT id FROM users WHERE username = ?", (username,))
+                row = cursor.fetchone()
+                if row:
+                    return row[0]
+                else:
+                    return None
+            except Error as e:
+                print(e)
+                return None
+            finally:
+                conn.close()
+        return None

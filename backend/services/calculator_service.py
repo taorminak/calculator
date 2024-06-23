@@ -14,29 +14,55 @@ class CalculatorService:
             print(e)
         return conn
 
-    def add(self, operand1: float, operand2: float) -> float:
-        # Perform addition and return the result
-        return operand1 + operand2
+    def save_calculation(self, user_id: int, operand1: float, operand2: float, result: float, calculation_type: str):
+        conn = self.create_connection()
+        if conn is not None:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO calculations (user_id, operand1, operand2, result, calculation_type)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (user_id, operand1, operand2, result, calculation_type))
+                conn.commit()
+                conn.close()
+            except Error as e:
+                print(e)
 
-    def subtract(self, operand1: float, operand2: float) -> float:
+    def add(self, user_id: int, operand1: float, operand2: float) -> float:
+        # Perform addition and return the result
+        result = operand1 + operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'addition')
+        return result
+
+    def subtract(self, user_id: int, operand1: float, operand2: float) -> float:
         # Perform subtraction and return the result
-        return operand1 - operand2
+        result = operand1 - operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'subtraction')
+        return result
     
-    def multiplicate(self, operand1: float, operand2: float) -> float:
+    def multiplicate(self, user_id: int, operand1: float, operand2: float) -> float:
         # Perform multiplication and return the result
-        return operand1 * operand2
+        result = operand1 * operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'multiplication')
+        return result
     
-    def divide(self, operand1: float, operand2: float) -> float:
+    def divide(self, user_id: int, operand1: float, operand2: float) -> float:
         # Perform division and return the result
-        return operand1 / operand2
+        result = operand1 / operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'division')
+        return result
     
-    def modulo(self, operand1: float, operand2: float) -> float:
+    def modulo(self, user_id: int, operand1: float, operand2: float) -> float:
         # Perform modulo operation and return the result
-        return operand1 % operand2
+        result = operand1 % operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'modulo')
+        return result
     
-    def exponentiate(self, operand1: float, operand2: float) -> float:
+    def exponentiate(self, user_id: int, operand1: float, operand2: float) -> float:
         # Perform exponentiation and return the result
-        return operand1 ** operand2
+        result = operand1 ** operand2
+        self.save_calculation(user_id, operand1, operand2, result, 'exponentiation')
+        return result
 
     def get_calculations(self):
         conn = self.create_connection()
