@@ -36,9 +36,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const allowedRoutes = ['login', 'register', 'profile'];
-  const formName = allowedRoutes.includes(to.name) ? capitalizeFirstLetter(to.name) : 'Login';
-  store.dispatch('user/setForm', formName);
-
+  if (to.name !== 'home') {
+    const formName = allowedRoutes.includes(to.name) ? capitalizeFirstLetter(to.name) : 'Login';
+    store.dispatch('user/setForm', formName);
+  }
+  
   if (to.meta.requiresAuth) {
     const token = localStorage.getItem('token');
     if (!token) {
