@@ -5,10 +5,16 @@ from dependencies import get_auth_service
 import jwt
 from jwt import ExpiredSignatureError, PyJWTError
 
+
 # Dependency for verifying JWT token
-def verify_token(authorization: str = Header(...), auth_service: AuthService = Depends(get_auth_service)):
+def verify_token(
+    authorization: str = Header(...),
+    auth_service: AuthService = Depends(get_auth_service),
+):
     if not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Bearer token required")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Bearer token required"
+        )
 
     token = authorization.split()[1]
     try:
@@ -16,7 +22,11 @@ def verify_token(authorization: str = Header(...), auth_service: AuthService = D
         return payload
     except ExpiredSignatureError:
         # Token has expired
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired"
+        )
     except PyJWTError:
         # Invalid token
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
+        )

@@ -8,8 +8,9 @@ import hashlib
 # Secret key for JWT encoding
 SECRET_KEY = "5E18C542027176768CA471B78518FE56011A09553D7522668EF30F7784324FC3"
 
+
 class AuthService:
-    def __init__(self, db_file='calculation.db', secret_key=SECRET_KEY):
+    def __init__(self, db_file="calculation.db", secret_key=SECRET_KEY):
         self.db_file = db_file
         self.secret_key = secret_key
 
@@ -26,10 +27,13 @@ class AuthService:
         conn = self.create_connection()
         if conn is None:
             return None
-        
+
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT username, hashed_password, role FROM users WHERE username=?", (username,))
+            cursor.execute(
+                "SELECT username, hashed_password, role FROM users WHERE username=?",
+                (username,),
+            )
             user_record = cursor.fetchone()
 
             if user_record:
@@ -51,12 +55,15 @@ class AuthService:
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         # Verify if the plain password matches the hashed password
-        return hashed_password == hashlib.sha256(plain_password.encode('utf-8')).hexdigest()
+        return (
+            hashed_password
+            == hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
+        )
 
     def _create_token(self, username: str) -> str:
         # Create a JWT token with an expiration time
         expiration = datetime.now(timezone.utc) + timedelta(hours=1)
-        token = jwt.encode({"sub": username, "exp": expiration}, SECRET_KEY, algorithm="HS256")
-        return token 
-
-    
+        token = jwt.encode(
+            {"sub": username, "exp": expiration}, SECRET_KEY, algorithm="HS256"
+        )
+        return token
