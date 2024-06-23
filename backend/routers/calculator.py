@@ -32,7 +32,7 @@ def multiplicate(request: OperationRequest,
                 calculator_service: CalculatorService = Depends(get_calculator_service), 
                 payload: dict = Depends(verify_token), 
                 user_service: UserService = Depends(get_user_service)):
-    username = payload.get("username")  
+    username = payload.get("sub")  
     role = user_service.get_user_role(username)
 
     if role != "scientist":
@@ -50,7 +50,7 @@ def divide(request: OperationRequest,
     role = user_service.get_user_role(username)
 
     if role != "scientist":
-        raise HTTPException(status_code=403, detail=f"Only scientists have access to this operation. Your role is {payload} ")
+        raise HTTPException(status_code=403, detail=f"Only scientists have access to this operation.")
     
     result = calculator_service.divide(request.operand1, request.operand2)
     return {"result": result}
@@ -68,3 +68,15 @@ def exponentiate(request: OperationRequest,
                 token: str = Depends(verify_token)):
     result = calculator_service.exponentiate(request.operand1, request.operand2)
     return {"result": result}
+
+
+@router.get("/history")
+def get_all_calculations(calculator_service: CalculatorService = Depends(get_calculator_service),
+                        user_service: UserService = Depends(get_user_service),
+                        payload: dict = Depends(verify_token)):
+    username = payload.get("sub")  
+    role = user_service.get_user_role(username)
+
+    if role != "scientist":
+        raise HTTPException(status_code=403, detail="Only scientists have access to this operation.")
+    return calculator_service.get_calculations()
