@@ -1,14 +1,14 @@
 const mutations = {
   SET_LOGIN(state) {
-    state.isLoggedIn = true
+    state.isLoggedIn = true;
   },
   SET_LOGOUT(state) {
-    state.isLoggedIn = false
+    state.isLoggedIn = false;
   },
   SET_FORM(state, form) {
-    state.currentForm = form
-    console.log(state.currentForm, form)
+    state.currentForm = form;
+    console.log(state.currentForm, form);
   }
-}
+};
 
-export default mutations
+export default mutations;

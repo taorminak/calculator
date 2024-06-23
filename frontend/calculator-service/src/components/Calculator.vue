@@ -120,6 +120,7 @@ export default {
 
       try {
         const data = await this.fetchCalculationResult(endpoint, requestBody)
+        console.log(data)
         this.displayValue = String(data.result)
         this.firstOperand = String(data.result)
         this.secondOperand = ''
@@ -148,6 +149,7 @@ export default {
         const data = await response.json()
         return data
       } catch (e) {
+        console.log(e)
         this.errorMessage = `Failed to calculate result. Please, make sure you are logged in.`
         throw e
       }

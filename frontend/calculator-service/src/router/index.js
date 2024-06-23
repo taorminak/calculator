@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import store from '../store'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import store from '../store';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,27 +32,27 @@ const router = createRouter({
       component: () => import('@/views/NotFoundView.vue')
     }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
-  const allowedRoutes = ['login', 'register', 'profile']
-  const formName = allowedRoutes.includes(to.name) ? capitalizeFirstLetter(to.name) : 'Login'
-  store.dispatch('user/setForm', formName)
+  const allowedRoutes = ['login', 'register', 'profile'];
+  const formName = allowedRoutes.includes(to.name) ? capitalizeFirstLetter(to.name) : 'Login';
+  store.dispatch('user/setForm', formName);
 
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     if (!token) {
-      next('/login')
+      next('/login');
     } else {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export default router
+export default router;

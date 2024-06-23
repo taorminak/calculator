@@ -16,8 +16,10 @@
     </div>
   </div>
 </template>
+
 <script>
 import { ROWS, SERVICE_BUTTONS } from '../constants'
+
 export default {
   name: 'CalculatorKeyboard',
   data() {
@@ -37,7 +39,8 @@ export default {
   }
 }
 </script>
-<style>
+
+<style scoped>
 .calculator_keyboard {
   display: flex;
   flex-direction: column;
