@@ -4,9 +4,11 @@ from typing import Optional
 import sqlite3
 from sqlite3 import Error
 import hashlib
+from dotenv import load_dotenv
+import os
 
-# Secret key for JWT encoding
-SECRET_KEY = "5E18C542027176768CA471B78518FE56011A09553D7522668EF30F7784324FC3"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 class AuthService:
