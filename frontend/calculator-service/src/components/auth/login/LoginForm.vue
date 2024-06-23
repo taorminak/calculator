@@ -77,6 +77,7 @@ export default {
         }
       } catch (error) {
         console.error('Error authentificating user:', error)
+        throw error;
       }
     },
     toggleForm(form) {

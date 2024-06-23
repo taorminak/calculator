@@ -7,7 +7,6 @@ const mutations = {
   },
   SET_FORM(state, form) {
     state.currentForm = form;
-    console.log(state.currentForm, form);
   }
 };
 
