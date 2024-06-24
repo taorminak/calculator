@@ -9,8 +9,6 @@ import os
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
-
-
 class AuthService:
     def __init__(self, db_file="calculation.db", secret_key=SECRET_KEY):
         self.db_file = db_file
